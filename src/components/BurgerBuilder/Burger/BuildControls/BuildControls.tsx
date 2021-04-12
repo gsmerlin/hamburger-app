@@ -8,8 +8,10 @@ interface Props {
   onOrder: () => void;
 }
 
+// To-Do: Setup a way to get ingredients from the database?
 const controls = ["Salad", "Bacon", "Cheese", "Meat"];
 
+// Main add/remove ingredient button handler
 const BuildControls: React.FC<Props> = (props) => {
   const { ingredients, getPrc } = React.useContext(BurgerContext);
   const { isAuth } = React.useContext(AuthContext);

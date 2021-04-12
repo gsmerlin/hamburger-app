@@ -10,6 +10,7 @@ interface IOrder {
   id: string;
 }
 
+// Main container for rendering all user orders to screen
 const Orders: React.FC = () => {
   const { authInfo } = React.useContext(AuthContext);
   const [orders, setOrders] = React.useState<IOrder[]>([]);

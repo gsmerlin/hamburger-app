@@ -7,6 +7,7 @@ interface Props {
   onContinue: () => void;
 }
 
+// Simple modal that displays order summary to screen
 const OrderSummary: React.FC<Props> = (props) => {
   const { getAmts, getAmt, getPrc } = React.useContext(BurgerContext);
   const { onCancel, onContinue } = props;

@@ -6,6 +6,7 @@ interface Props {
   label: string;
 }
 
+// Add/remove button instance.
 const BuildControl: React.FC<Props> = (props) => {
   const { label } = props;
   const { getAmt, addIng, delIng } = React.useContext(BurgerContext);

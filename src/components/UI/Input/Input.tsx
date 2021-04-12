@@ -14,6 +14,7 @@ interface IProps {
   label?: string;
 }
 
+// Custom input component
 const Input: React.FC<IProps> = (props) => {
   const {
     invalid,

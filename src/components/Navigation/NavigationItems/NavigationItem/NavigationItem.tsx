@@ -8,6 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
+// Single instance of navigation item
 const NavigationItem: React.FC<Props> = (props) => {
   const { link, exact, children } = props;
   return (

@@ -3,13 +3,16 @@ import * as React from "react";
 import { Redirect, RouterProps, withRouter } from "react-router";
 import { AuthContext } from "../../context/auth-context";
 import IAuthFields from "../../interfaces/IAuthFields";
-import IElementValidation from "../../interfaces/IElementValidation";
 import IInputElement from "../../interfaces/IInputElement";
+import checkValidity from "../../utils/checkvalidity";
 import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import MainDiv from "./style";
 
-const Auth: React.FC<RouterProps> = (props) => {
+
+// Authenticates user
+const Auth: React.FC<RouterProps> = (props: RouterProps) => {
+  // Authentication form field configuration
   const [authForm, setAuthForm] = React.useState<IAuthFields>({
     email: {
       elementType: "input",
@@ -41,9 +44,13 @@ const Auth: React.FC<RouterProps> = (props) => {
     },
   });
 
+  // Toggles between sign in & sign up modes
   const [mode, setMode] = React.useState("signin");
+
+  // Auth context usage
   const { setAuth, isAuth, chkTimeout } = React.useContext(AuthContext);
 
+  // Switches between sign in & sign up
   const switchMode = () => {
     if (mode === "signin") {
       setMode("signup");
@@ -52,6 +59,7 @@ const Auth: React.FC<RouterProps> = (props) => {
     }
   };
 
+  // Handles changes for when e-mail || password are inputted
   const onChangeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
       default:
@@ -79,6 +87,7 @@ const Auth: React.FC<RouterProps> = (props) => {
     }
   };
 
+  // Prepares input elements for rendering on screen
   const formElements = Object.entries(authForm).map((entry) => {
     const id: string = entry[0];
     const config: IInputElement = entry[1];
@@ -98,38 +107,10 @@ const Auth: React.FC<RouterProps> = (props) => {
     );
   });
 
+  // If the user is logged in they shouldn't be seeing this page; This variable lets us automatically redirect them back to the homepage.
   const redirect = isAuth ? <Redirect to="/" /> : null;
 
-  const checkValidity = (value: string, rules: IElementValidation) => {
-    let isValid = true;
-    if (!rules) {
-      return true;
-    }
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    if (rules.isEmail) {
-      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    if (rules.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid;
-    }
-    return isValid;
-  };
-
+  // Loops at all form elements to determine whether or not they are valid
   const isFormValid = () => {
     let validForm = true;
     let newForm: IAuthFields = authForm;
@@ -143,9 +124,12 @@ const Auth: React.FC<RouterProps> = (props) => {
     });
     return validForm;
   };
+
+  // Handles authentication to firebase
   const onSubmitHandler = () => {
     const isValid = isFormValid();
     if (isValid) {
+      // Assigns sign up || sign in url depending on option
       const url =
         mode === "signup"
           ? "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDko5xnM5c-TdFT-6eXCT07kolI9qsjKos"
@@ -158,26 +142,32 @@ const Auth: React.FC<RouterProps> = (props) => {
       axios
         .post(url, authData)
         .then((response) => {
+          // Calculates when token expires
           const expirationDate = new Date(
             new Date().getTime() + response.data.expiresIn * 1000
           );
+            
+          // Saves token info to local storage
           localStorage.setItem("token", response.data.idToken);
           localStorage.setItem("expirationDate", expirationDate.toDateString());
           localStorage.setItem("userId", response.data.localId);
+            
+          // To-Do: Figure out why expiration isn't working as it should
           chkTimeout(expirationDate.getTime());
           setAuth({
             token: response.data.idToken,
             userId: response.data.localId,
           });
         })
+        // To-Do: Implement proper error handling. Maybe a modal?
         .catch(() => console.log("An error has occurred!"));
-      console.log(isAuth);
     }
   };
 
   const switchButton =
     mode === "signin" ? "Switch to Sign Up" : "Switch to Sign In";
 
+  // Simple button to send user back if they cancel
   const onCancelHandler = () => props.history.goBack();
 
   return (

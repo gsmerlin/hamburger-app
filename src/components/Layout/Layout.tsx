@@ -3,6 +3,7 @@ import SideDrawer from "../Navigation/SideDrawer/SideDrawer";
 import Toolbar from "../Navigation/Toolbar/Toolbar";
 import Content from "./style";
 
+// Main layout container handling toolbar/side-drawer/menu navigation
 const Layout: React.FC<React.ReactNode> = (props) => {
   const { children } = props;
 

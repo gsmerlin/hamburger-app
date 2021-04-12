@@ -3,6 +3,7 @@ import { AuthContext } from "../../../context/auth-context";
 import NavigationItem from "./NavigationItem/NavigationItem";
 import NavItems from "./style";
 
+// Main component for handling all navlinks
 const NavigationItems: React.FC = () => {
   const { isAuth } = React.useContext(AuthContext);
   return (

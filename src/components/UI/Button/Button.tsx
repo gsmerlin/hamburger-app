@@ -8,6 +8,7 @@ interface Props {
   children: string;
 }
 
+// Custom button component
 const Button: React.FC<Props> = (props) => {
   const { disabled, btnClass, onClick, children } = props;
   return (

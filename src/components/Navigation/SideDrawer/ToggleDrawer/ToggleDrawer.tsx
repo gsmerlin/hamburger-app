@@ -5,6 +5,7 @@ interface Props {
   onClick: () => void;
 }
 
+// Simple component for creating "hamburger-menu" drawer button display
 const ToggleDrawer: React.FC<Props> = (props) => {
   const { onClick } = props;
   return (

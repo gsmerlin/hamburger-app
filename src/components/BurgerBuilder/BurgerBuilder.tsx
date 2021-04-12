@@ -7,6 +7,7 @@ import BuildControls from "./Burger/BuildControls/BuildControls";
 import Burger from "./Burger/Burger";
 import OrderSummary from "./Burger/OrderSummary/OrderSummary";
 
+// Main burger-builder container
 const BurgerBuilder: React.FC<RouterProps> = (props) => {
   const [purchasing, setPurchasing] = React.useState(false);
   const { getAmts, clearIngs } = React.useContext(BurgerContext);

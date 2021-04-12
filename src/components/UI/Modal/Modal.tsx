@@ -8,6 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
+// Simple modal for displaying user alerts
 const Modal: React.FC<Props> = (props) => {
   const { show, onClick, children } = props;
   return (

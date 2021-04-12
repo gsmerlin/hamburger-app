@@ -2,6 +2,7 @@ import * as React from "react";
 import IAmounts from "../interfaces/IAmounts";
 import IBurgerContext from "../interfaces/IBurgerContext";
 
+// Context for handling burger ingredients & price
 export const BurgerContext: React.Context<IBurgerContext> = React.createContext<IBurgerContext>(
   {
     ingredients: [],
@@ -20,6 +21,7 @@ const BurgerContextProvider: React.FC<React.ReactNode> = (props) => {
 
   const clearIngs = () => setIngredients([]);
 
+  // Returns object containing key-value pair for every ingredient
   const getAmts = () => {
     const amounts: IAmounts = { salad: 0, bacon: 0, cheese: 0, meat: 0 };
     ingredients.forEach((ingredient) => {
@@ -41,6 +43,7 @@ const BurgerContextProvider: React.FC<React.ReactNode> = (props) => {
     return amounts;
   };
 
+  // Returns amount of singular ingredient
   const getAmt = (ingredient: string) => {
     const amounts = getAmts();
     switch (ingredient.toLowerCase()) {
@@ -55,6 +58,8 @@ const BurgerContextProvider: React.FC<React.ReactNode> = (props) => {
     }
   };
 
+  // Returns price for hamburger
+  // To-Do: Could set this up to get prices and ingredients from firebase. Maybe set something up so I can get CSS for rendering each ingredient as well?
   const getPrc = () => {
     let price = 4;
     ingredients.forEach((ingredient) => {
@@ -75,6 +80,8 @@ const BurgerContextProvider: React.FC<React.ReactNode> = (props) => {
     });
     return price;
   };
+  
+  
   const addIng = (newIng: string) => {
     setIngredients((prevIngs) => [...prevIngs, newIng]);
   };

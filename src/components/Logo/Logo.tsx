@@ -6,6 +6,7 @@ interface Props {
   height: string;
 }
 
+// Simple component to display the mock up logotype
 const Logo: React.FC<Props> = (props) => {
   const { height } = props;
   return (

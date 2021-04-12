@@ -4,13 +4,14 @@ import firebase from "../../../axios";
 import { AuthContext } from "../../../context/auth-context";
 import { BurgerContext } from "../../../context/burger-context";
 import IElementOptions from "../../../interfaces/IElementOptions";
-import IElementValidation from "../../../interfaces/IElementValidation";
 import IInputElement from "../../../interfaces/IInputElement";
 import IInputElements from "../../../interfaces/IInputElements";
+import checkValidity from "../../../utils/checkvalidity";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
 import MainDiv from "./style";
 
+// Main contact information handling container
 const ContactData: React.FC<RouterProps> = (props) => {
   const createElement = (
     elementType: string,
@@ -47,6 +48,7 @@ const ContactData: React.FC<RouterProps> = (props) => {
     return inputElement;
   };
 
+  // Creates input elements to display on screen
   const createElements = () => {
     const elements = {
       fullName: createElement("input", "text", "Name", [], "", true),
@@ -87,6 +89,7 @@ const ContactData: React.FC<RouterProps> = (props) => {
     createElements()
   );
 
+  // Handles changes to input elements
   const onChangeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
       default:
@@ -144,6 +147,7 @@ const ContactData: React.FC<RouterProps> = (props) => {
     }
   };
 
+  // Handles changes to dropdown list 
   const onChangeSelectHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -157,6 +161,7 @@ const ContactData: React.FC<RouterProps> = (props) => {
     });
   };
 
+  // Sets up an array of elements to render to screen
   const formElements = Object.entries(orderForm).map((entry) => {
     const id: string = entry[0];
     const config: IInputElement = entry[1];
@@ -176,36 +181,7 @@ const ContactData: React.FC<RouterProps> = (props) => {
     );
   });
 
-  const checkValidity = (value: string, rules: IElementValidation) => {
-    let isValid = true;
-    if (!rules) {
-      return true;
-    }
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    if (rules.isEmail) {
-      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-      isValid = pattern.test(value) && isValid;
-    }
-
-    if (rules.isNumeric) {
-      const pattern = /^\d+$/;
-      isValid = pattern.test(value) && isValid;
-    }
-    return isValid;
-  };
-
+  // Checks if form is valid & purchase can proceed
   const isFormValid = () => {
     let validForm = true;
     let newForm: IInputElements = orderForm;
@@ -220,8 +196,13 @@ const ContactData: React.FC<RouterProps> = (props) => {
     setOrderForm(newForm);
     return validForm;
   };
+
+  // Auth context
   const { authInfo } = React.useContext(AuthContext);
+  // Burger context
   const { getAmts, getPrc } = React.useContext(BurgerContext);
+  
+  // Handler for burger purchase
   const onSubmitHandler = () => {
     const isValid = isFormValid();
     if (isValid) {

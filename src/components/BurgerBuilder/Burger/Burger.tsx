@@ -3,6 +3,7 @@ import { BurgerContext } from "../../../context/burger-context";
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 import Div from "./style";
 
+// Renders full burger to screen whenever called
 const Burger: React.FC = () => {
   const { ingredients } = React.useContext(BurgerContext);
   const ingredientList =

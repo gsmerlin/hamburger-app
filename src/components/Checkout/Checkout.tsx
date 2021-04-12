@@ -4,6 +4,7 @@ import Button from "../UI/Button/Button";
 import CheckoutSummary from "./CheckoutSummary/CheckoutSummary";
 import ContactData from "./ContactData/ContactData";
 
+// Simple container for handling checkout
 const Checkout: React.FC<RouterProps> = (props) => {
   const [renderContactData, setRenderContactData] = React.useState(false);
 

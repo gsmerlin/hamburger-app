@@ -5,6 +5,7 @@ interface Props {
   ingredient: string;
 }
 
+// Ingredient rendering component
 const BurgerIngredient: React.FC<Props> = (props) => {
   const { ingredient } = props;
   return ingredient === "BreadTop" ? (

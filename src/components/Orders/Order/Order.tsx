@@ -7,6 +7,7 @@ interface Props {
   price: number;
 }
 
+// Simple component for rendering a single order to screen
 const Order: React.FC<Props> = (props) => {
   const { ingredients, price } = props;
 

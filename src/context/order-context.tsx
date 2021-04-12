@@ -3,6 +3,7 @@ import IAmounts from "../interfaces/IAmounts";
 import IContactInfo from "../interfaces/IContactInfo";
 import IOrderContext from "../interfaces/IOrderContext";
 
+// Context for handling orders
 export const OrderContext: React.Context<IOrderContext> = React.createContext<IOrderContext>(
   {
     order: {
